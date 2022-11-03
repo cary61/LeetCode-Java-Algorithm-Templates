@@ -1,15 +1,17 @@
-package nocomments.trie;
+package no_comments.tree.trie;
 
-class Trie {
+import java.util.*;
+
+class Trie_Map {
 
     class Node {
-        Node[] next = new Node[26];
+        Map<Character,Node> next = new HashMap<Character,Node>();
         boolean end;
     }
 
     Node root;
 
-    Trie() {
+    Trie_Map() {
         root = new Node();
     }
 
@@ -17,11 +19,11 @@ class Trie {
         int len = word.length();
         Node p = root;
         for (int i = 0; i < len; ++i) {
-            int pos = word.charAt(i) - 'a';
-            if (p.next[pos] == null) {
-                p.next[pos] = new Node();
+            char ch = word.charAt(i);
+            if (p.next.get(ch) == null) {
+                p.next.put(ch, new Node());
             }
-            p = p.next[pos];
+            p = p.next.get(ch);
         }
         p.end = true;
     }
@@ -30,11 +32,11 @@ class Trie {
         int len = word.length();
         Node p = root;
         for (int i = 0; i < len; ++i) {
-            int pos = word.charAt(i) - 'a';
-            if (p.next[pos] == null) {
+            char ch = word.charAt(i);
+            if (p.next.get(ch) == null) {
                 return false;
             }
-            p = p.next[pos];
+            p = p.next.get(ch);
         }
         return true;
     }
@@ -43,11 +45,11 @@ class Trie {
         int len = word.length();
         Node p = root;
         for (int i = 0; i < len; ++i) {
-            int pos = word.charAt(i) - 'a';
-            if (p.next[pos] == null) {
+            char ch = word.charAt(i);
+            if (p.next.get(ch) == null) {
                 return false;
             }
-            p = p.next[pos];
+            p = p.next.get(ch);
         }
         return p.end;
     }
