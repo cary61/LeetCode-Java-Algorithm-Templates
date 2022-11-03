@@ -3,6 +3,7 @@ package tree.trie;
 /**
  * A trie for strings that only contain lowercase letters.
  * Implemented simply by array.
+ *
  * @author cary61
  */
 class Trie {

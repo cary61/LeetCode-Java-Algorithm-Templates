@@ -5,6 +5,7 @@ import java.util.*;
 /**
  * A trie for strings that might contain any letter, without limit.
  * Implemented by HashMap.
+ *
  * @author cary61
  */
 class Trie_Map {
