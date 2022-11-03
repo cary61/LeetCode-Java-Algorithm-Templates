@@ -1,11 +1,13 @@
 package tree.trie;
 
+import java.util.*;
+
 /**
- * A trie for strings that only contain lowercase letters.
- * Implemented simply by array.
+ * A trie for strings that might contain any letter, without limit.
+ * Implemented by HashMap.
  * @author cary61
  */
-class Trie {
+class Trie_Map {
 
     /**
      * The node of tree structure
@@ -14,9 +16,9 @@ class Trie {
 
         /**
          * Represents if there is a way to down for specific letter, and points it.
-         * Each next[i] represents a condition of one letter.
+         * Each "next.contains(letter)" represents a condition of one letter.
          */
-        Node[] next = new Node[26];
+        Map<Character,Node> next = new HashMap<Character,Node>();
 
         /**
          * Represent if the prefix that the way down represents can be an intact word.
@@ -30,7 +32,7 @@ class Trie {
      */
     Node root;
 
-    Trie() {
+    Trie_Map() {
         root = new Node();
     }
 
@@ -41,11 +43,11 @@ class Trie {
         int len = word.length();
         Node p = root;
         for (int i = 0; i < len; ++i) {
-            int pos = word.charAt(i) - 'a';
-            if (p.next[pos] == null) {
-                p.next[pos] = new Node();
+            char ch = word.charAt(i);
+            if (p.next.get(ch) == null) {
+                p.next.put(ch, new Node());
             }
-            p = p.next[pos];
+            p = p.next.get(ch);
         }
         p.end = true;
     }
@@ -58,11 +60,11 @@ class Trie {
         int len = word.length();
         Node p = root;
         for (int i = 0; i < len; ++i) {
-            int pos = word.charAt(i) - 'a';
-            if (p.next[pos] == null) {
+            char ch = word.charAt(i);
+            if (p.next.get(ch) == null) {
                 return false;
             }
-            p = p.next[pos];
+            p = p.next.get(ch);
         }
         return true;
     }
@@ -74,11 +76,11 @@ class Trie {
         int len = word.length();
         Node p = root;
         for (int i = 0; i < len; ++i) {
-            int pos = word.charAt(i) - 'a';
-            if (p.next[pos] == null) {
+            char ch = word.charAt(i);
+            if (p.next.get(ch) == null) {
                 return false;
             }
-            p = p.next[pos];
+            p = p.next.get(ch);
         }
         return p.end;
     }
