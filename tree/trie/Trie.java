@@ -14,7 +14,7 @@ class Trie {
     class Node {
 
         /**
-         * Represents if there is a way to down for specific letter, and points it.
+         * Represents if there is a way to down for specific letter, and points to it.
          * Each next[i] represents a condition of one letter.
          */
         Node[] next = new Node[26];

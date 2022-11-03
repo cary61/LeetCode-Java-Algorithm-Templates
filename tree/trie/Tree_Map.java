@@ -16,7 +16,7 @@ class Trie_Map {
     class Node {
 
         /**
-         * Represents if there is a way to down for specific letter, and points it.
+         * Represents if there is a way to down for specific letter, and points to it.
          * Each "next.contains(letter)" represents a condition of one letter.
          */
         Map<Character,Node> next = new HashMap<Character,Node>();
