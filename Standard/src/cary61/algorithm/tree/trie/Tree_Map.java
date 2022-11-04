@@ -3,7 +3,7 @@ package cary61.algorithm.tree.trie;
 import java.util.*;
 
 /**
- * A trie for strings that might contain any letter, without limit.
+ * A Trie for strings that might contain any letter, without limit.
  * Implemented by HashMap.
  *
  * @author cary61
