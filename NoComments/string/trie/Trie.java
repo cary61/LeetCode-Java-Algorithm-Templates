@@ -1,17 +1,13 @@
-package cary61.algorithm.string.trie;
-
-import java.util.*;
-
-class Trie_Map {
+class Trie {
 
     class Node {
-        Map<Character,Node> next = new HashMap<Character,Node>();
+        Node[] next = new Node[26];
         boolean end;
     }
 
     Node root;
 
-    Trie_Map() {
+    Trie() {
         root = new Node();
     }
 
@@ -19,11 +15,11 @@ class Trie_Map {
         int len = word.length();
         Node p = root;
         for (int i = 0; i < len; ++i) {
-            char ch = word.charAt(i);
-            if (p.next.get(ch) == null) {
-                p.next.put(ch, new Node());
+            int pos = word.charAt(i) - 'a';
+            if (p.next[pos] == null) {
+                p.next[pos] = new Node();
             }
-            p = p.next.get(ch);
+            p = p.next[pos];
         }
         p.end = true;
     }
@@ -32,11 +28,11 @@ class Trie_Map {
         int len = word.length();
         Node p = root;
         for (int i = 0; i < len; ++i) {
-            char ch = word.charAt(i);
-            if (p.next.get(ch) == null) {
+            int pos = word.charAt(i) - 'a';
+            if (p.next[pos] == null) {
                 return false;
             }
-            p = p.next.get(ch);
+            p = p.next[pos];
         }
         return true;
     }
@@ -45,11 +41,11 @@ class Trie_Map {
         int len = word.length();
         Node p = root;
         for (int i = 0; i < len; ++i) {
-            char ch = word.charAt(i);
-            if (p.next.get(ch) == null) {
+            int pos = word.charAt(i) - 'a';
+            if (p.next[pos] == null) {
                 return false;
             }
-            p = p.next.get(ch);
+            p = p.next[pos];
         }
         return p.end;
     }

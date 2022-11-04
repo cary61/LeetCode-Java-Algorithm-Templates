@@ -1,6 +1,4 @@
-package cary61.algorithm.graph.union_find;
-
-import java.util.Arrays;
+// import java.util.Arrays;
 
 class UnionFind {
 

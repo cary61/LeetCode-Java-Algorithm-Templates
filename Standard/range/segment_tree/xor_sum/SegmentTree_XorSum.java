@@ -1,19 +1,17 @@
-package cary61.algorithm.range.segment_tree.max;
-
 /**
- * A SegmentTree for maintain the max value of range.
- * Capital of updating new value, adding value to single points, and getting the max value of any query range.
+ * A SegmentTree for maintain the xor-sum of range.
+ * Capital of updating new value, adding value to single points, and getting the xor sum of any query range.
  * Implemented by Node.
  * The public methods are advised to use.
  *
  * @author cary61
  */
-class SegmentTree_Max {
+class SegmentTree_XorSum {
 
     /**
      * The default value of the unspecified value
      */
-    static int DEFAULT_VALUE = Integer.MIN_VALUE;
+    static int DEFAULT_VALUE = 0;
 
     /**
      * The node of tree structure.
@@ -21,9 +19,9 @@ class SegmentTree_Max {
     class Node {
 
         /**
-         * The max value of the range that this node represents.
+         * The xor-sum of the range that this node represents.
          */
-        int max = DEFAULT_VALUE;
+        int xorSum = DEFAULT_VALUE;
 
         /**
          * The left child and right child of this node.
@@ -53,7 +51,7 @@ class SegmentTree_Max {
      * @param LOWERBOUND the lower-bound of range
      * @param UPPERBOUND the upper-bound of range
      */
-    public SegmentTree_Max(int LOWERBOUND, int UPPERBOUND) {
+    public SegmentTree_XorSum(int LOWERBOUND, int UPPERBOUND) {
         this.LOWERBOUND = LOWERBOUND;
         this.UPPERBOUND = UPPERBOUND;
         this.root = new Node();
@@ -64,7 +62,7 @@ class SegmentTree_Max {
      *
      * @param arr The array that SegmentTree maintains
      */
-    public SegmentTree_Max(int[] arr) {
+    public SegmentTree_XorSum(int[] arr) {
         this.LOWERBOUND = 0;
         this.UPPERBOUND = arr.length - 1;
         this.root = new Node();
@@ -102,68 +100,67 @@ class SegmentTree_Max {
     }
 
     /**
-     * Get the max value of range [l, r].
+     * Get the xor-sum of range [l, r].
      *
      * @param l the lower-bound of query range
      * @param r the upper-bound of query range
-     * @return the sum of query range [l, r]
+     * @return the xor-sum of query range [l, r]
      */
-    public int max(int l, int r) {
-        if (l > r)  return DEFAULT_VALUE;
+    public int xorSum(int l, int r) {
+        if (l > r)  return 0;
         if (l == r) return get(l, root, LOWERBOUND, UPPERBOUND);
-        return max(l, r, root, LOWERBOUND, UPPERBOUND);
+        return xorSum(l, r, root, LOWERBOUND, UPPERBOUND);
     }
 
     // Implementations below
 
     void update(int idx, int val, Node node, int s, int t) {
         if (s == t) {
-            node.max = val;
+            node.xorSum = val;
             return;
         }
         int c = (s & t) + ((s ^ t) >> 1);
         if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
         if (s <= c)     update(idx, val, node.lc, s, c);
         else            update(idx, val, node.rc, c + 1, t);
-        node.max = Math.max(node.lc.max, node.rc.max);
+        node.xorSum = node.lc.xorSum ^ node.rc.xorSum;
     }
 
     void add(int idx, int val, Node node, int s, int t) {
+        node.xorSum ^= val;
         if (s == t) {
-            node.max += val;
             return;
         }
         int c = (s & t) + ((s ^ t) >> 1);
         if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
         if (idx <= c)   add(idx, val, node.lc, s, c);
         else            add(idx, val, node.rc, c + 1, t);
-        node.max = Math.max(node.lc.max, node.rc.max);
     }
 
     int get(int idx, Node node, int s, int t) {
         if (s == t) {
-            return node.max;
+            return node.xorSum;
         }
         int c = (s & t) + ((s ^ t) >> 1);
         if (idx <= c)   return node.lc == null ? DEFAULT_VALUE : get(idx, node.lc, s, c);
         else            return node.rc == null ? DEFAULT_VALUE : get(idx, node.rc, c + 1, t);
     }
 
-    int max(int l, int r, Node node, int s, int t) {
+    int xorSum(int l, int r, Node node, int s, int t) {
         if (l <= s && t <= r) {
-            return node.max;
+            return node.xorSum;
         }
         int c = (s & t) + ((s ^ t) >> 1);
         if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
-        int ret = DEFAULT_VALUE;
-        if (l <= c) ret = max(l, r, node.lc, s, c);
-        if (c < r)  ret = Math.max(ret, max(l, r, node.rc, c + 1, t));
+        int ret = 0;
+        if (l <= c) ret = xorSum(l, r, node.lc, s, c);
+        if (c < r)  ret ^= xorSum(l, r, node.rc, c + 1, t);
         return ret;
     }
 
     void build(int[] arr, Node node, int s, int t) {
         if (s == t) {
-            node.max = arr[s];
+            node.xorSum = arr[s];
             return;
         }
         int c = (s & t) +((s ^ t) >> 1);
@@ -171,7 +168,6 @@ class SegmentTree_Max {
         node.rc = new Node();
         build(arr, node.lc, s, c);
         build(arr, node.rc, c + 1, t);
-        node.max = Math.max(node.lc.max, node.rc.max);
+        node.xorSum = node.lc.xorSum ^ node.rc.xorSum;
     }
 }
-

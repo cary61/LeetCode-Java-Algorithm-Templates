@@ -1,6 +1,4 @@
-package cary61.algorithm.graph.union_find;
-
-import java.util.*;
+// import java.util.*;
 
 /**
  * A UnionFind that maintains the connectivity of n vertexes.

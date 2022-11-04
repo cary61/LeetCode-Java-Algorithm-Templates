@@ -1,19 +1,18 @@
-package cary61.algorithm.range.segment_tree.xor_sum;
-
 /**
- * A SegmentTree for maintain the xor-sum of range.
- * Capital of updating new value, adding value to single points, and getting the xor sum of any query range.
+ * A SegmentTree for maintain the sum of range.
+ * Capital of updating new value, adding value to single points, and getting the sum of any query range.
  * Implemented by Node.
  * The public methods are advised to use.
+ * The sum of any range should be guaranteed in range of int64.
  *
  * @author cary61
  */
-class SegmentTree_XorSum {
+class SegmentTree_Sum {
 
     /**
      * The default value of the unspecified value
      */
-    static int DEFAULT_VALUE = 0;
+    static long DEFAULT_VALUE = 0;
 
     /**
      * The node of tree structure.
@@ -21,9 +20,9 @@ class SegmentTree_XorSum {
     class Node {
 
         /**
-         * The xor-sum of the range that this node represents.
+         * The sum of the range that this node represents.
          */
-        int xorSum = DEFAULT_VALUE;
+        long sum;
 
         /**
          * The left child and right child of this node.
@@ -53,7 +52,7 @@ class SegmentTree_XorSum {
      * @param LOWERBOUND the lower-bound of range
      * @param UPPERBOUND the upper-bound of range
      */
-    public SegmentTree_XorSum(int LOWERBOUND, int UPPERBOUND) {
+    public SegmentTree_Sum(int LOWERBOUND, int UPPERBOUND) {
         this.LOWERBOUND = LOWERBOUND;
         this.UPPERBOUND = UPPERBOUND;
         this.root = new Node();
@@ -64,7 +63,7 @@ class SegmentTree_XorSum {
      *
      * @param arr The array that SegmentTree maintains
      */
-    public SegmentTree_XorSum(int[] arr) {
+    public SegmentTree_Sum(int[] arr) {
         this.LOWERBOUND = 0;
         this.UPPERBOUND = arr.length - 1;
         this.root = new Node();
@@ -102,34 +101,34 @@ class SegmentTree_XorSum {
     }
 
     /**
-     * Get the xor-sum of range [l, r].
+     * Get the sum of range [l, r].
      *
      * @param l the lower-bound of query range
      * @param r the upper-bound of query range
-     * @return the xor-sum of query range [l, r]
+     * @return the sum of query range [l, r]
      */
-    public int xorSum(int l, int r) {
+    public long sum(int l, int r) {
         if (l > r)  return 0;
         if (l == r) return get(l, root, LOWERBOUND, UPPERBOUND);
-        return xorSum(l, r, root, LOWERBOUND, UPPERBOUND);
+        return sum(l, r, root, LOWERBOUND, UPPERBOUND);
     }
 
     // Implementations below
 
     void update(int idx, int val, Node node, int s, int t) {
         if (s == t) {
-            node.xorSum = val;
+            node.sum = val;
             return;
         }
         int c = (s & t) + ((s ^ t) >> 1);
         if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
         if (s <= c)     update(idx, val, node.lc, s, c);
         else            update(idx, val, node.rc, c + 1, t);
-        node.xorSum = node.lc.xorSum ^ node.rc.xorSum;
+        node.sum = node.lc.sum + node.rc.sum;
     }
 
     void add(int idx, int val, Node node, int s, int t) {
-        node.xorSum ^= val;
+        node.sum += val;
         if (s == t) {
             return;
         }
@@ -141,28 +140,28 @@ class SegmentTree_XorSum {
 
     int get(int idx, Node node, int s, int t) {
         if (s == t) {
-            return node.xorSum;
+            return (int)node.sum;
         }
         int c = (s & t) + ((s ^ t) >> 1);
-        if (idx <= c)   return node.lc == null ? DEFAULT_VALUE : get(idx, node.lc, s, c);
-        else            return node.rc == null ? DEFAULT_VALUE : get(idx, node.rc, c + 1, t);
+        if (idx <= c)   return node.lc == null ? (int)DEFAULT_VALUE : get(idx, node.lc, s, c);
+        else            return node.rc == null ? (int)DEFAULT_VALUE : get(idx, node.rc, c + 1, t);
     }
 
-    int xorSum(int l, int r, Node node, int s, int t) {
+    long sum(int l, int r, Node node, int s, int t) {
         if (l <= s && t <= r) {
-            return node.xorSum;
+            return node.sum;
         }
         int c = (s & t) + ((s ^ t) >> 1);
         if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
-        int ret = 0;
-        if (l <= c) ret = xorSum(l, r, node.lc, s, c);
-        if (c < r)  ret ^= xorSum(l, r, node.rc, c + 1, t);
+        long ret = 0;
+        if (l <= c) ret = sum(l, r, node.lc, s, c);
+        if (c < r)  ret += sum(l, r, node.rc, c + 1, t);
         return ret;
     }
 
     void build(int[] arr, Node node, int s, int t) {
         if (s == t) {
-            node.xorSum = arr[s];
+            node.sum = arr[s];
             return;
         }
         int c = (s & t) +((s ^ t) >> 1);
@@ -170,6 +169,6 @@ class SegmentTree_XorSum {
         node.rc = new Node();
         build(arr, node.lc, s, c);
         build(arr, node.rc, c + 1, t);
-        node.xorSum = node.lc.xorSum ^ node.rc.xorSum;
+        node.sum = node.lc.sum + node.rc.sum;
     }
 }
