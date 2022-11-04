@@ -12,6 +12,11 @@ package cary61.algorithm.range.segment_tree.sum;
 class SegmentTree_Sum {
 
     /**
+     * The default value of the unspecified value
+     */
+    static int DEFAULT_VALUE = 0;
+
+    /**
      * The node of tree structure.
      */
     class Node {
@@ -19,7 +24,7 @@ class SegmentTree_Sum {
         /**
          * The sum of the range that this node represents.
          */
-        int sum;
+        int sum = DEFAULT_VALUE;
 
         /**
          * The left child and right child of this node.
@@ -44,7 +49,7 @@ class SegmentTree_Sum {
 
     /**
      * Instantiate a SegmentTree that maintains a range, with the lower-bound and upper-bound of it.
-     * The value of the points that have not been specified is 0 as default.
+     * The value of the points that have not been specified is DEFAULT_VALUE.
      *
      * @param LOWERBOUND the lower-bound of range
      * @param UPPERBOUND the upper-bound of range
@@ -140,8 +145,8 @@ class SegmentTree_Sum {
             return node.sum;
         }
         int c = (s & t) + ((s ^ t) >> 1);
-        if (idx <= c)   return node.lc == null ? 0 : get(idx, node.lc, s, c);
-        else            return node.rc == null ? 0 : get(idx, node.rc, c + 1, t);
+        if (idx <= c)   return node.lc == null ? DEFAULT_VALUE : get(idx, node.lc, s, c);
+        else            return node.rc == null ? DEFAULT_VALUE : get(idx, node.rc, c + 1, t);
     }
 
     int sum(int l, int r, Node node, int s, int t) {
