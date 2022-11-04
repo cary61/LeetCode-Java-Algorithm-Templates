@@ -1,11 +1,11 @@
-package cary61.algorithm.range.segment_tree.sum;
+package cary61.algorithm.range.segment_tree.sum.int64;
 
 /**
  * A SegmentTree for maintain the sum of range.
  * Capital of updating new value, adding value to single points, and getting the sum of any query range.
  * Implemented by Node.
  *
- * The sum of any range should be guaranteed in range of int32. If not, use the int64 version.
+ * The sum of any range should be guaranteed in range of int64.
  *
  * @author cary61
  */
@@ -19,7 +19,7 @@ class SegmentTree_Sum {
         /**
          * The sum of the range that this node represents.
          */
-        int sum;
+        long sum;
 
         /**
          * The left child and right child of this node.
@@ -104,7 +104,7 @@ class SegmentTree_Sum {
      * @param r the upper-bound of query range
      * @return the sum of query range [l, r]
      */
-    public int sum(int l, int r) {
+    public long sum(int l, int r) {
         if (l > r)  return 0;
         if (l == r) return get(l, root, LOWERBOUND, UPPERBOUND);
         return sum(l, r, root, LOWERBOUND, UPPERBOUND);
@@ -137,20 +137,20 @@ class SegmentTree_Sum {
 
     int get(int idx, Node node, int s, int t) {
         if (s == t) {
-            return node.sum;
+            return (int)node.sum;
         }
         int c = (s & t) + ((s ^ t) >> 1);
         if (idx <= c)   return node.lc == null ? 0 : get(idx, node.lc, s, c);
         else            return node.rc == null ? 0 : get(idx, node.rc, c + 1, t);
     }
 
-    int sum(int l, int r, Node node, int s, int t) {
+    long sum(int l, int r, Node node, int s, int t) {
         if (l <= s && t <= r) {
             return node.sum;
         }
         int c = (s & t) + ((s ^ t) >> 1);
         if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
-        int ret = 0;
+        long ret = 0;
         if (l <= c) ret = sum(l, r, node.lc, s, c);
         if (c < r)  ret += sum(l, r, node.rc, c + 1, t);
         return ret;
