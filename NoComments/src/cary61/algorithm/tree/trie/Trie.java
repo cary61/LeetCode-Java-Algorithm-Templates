@@ -1,4 +1,4 @@
-package no_comments.tree.trie;
+package cary61.algorithm.tree.trie;
 
 class Trie {
 

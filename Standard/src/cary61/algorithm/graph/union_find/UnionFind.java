@@ -1,4 +1,4 @@
-package graph.union_find;
+package cary61.algorithm.graph.union_find;
 
 import java.util.*;
 
