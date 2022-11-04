@@ -1,4 +1,4 @@
-package cary61.algorithm.tree.trie;
+package cary61.algorithm.string.trie;
 
 /**
  * A Trie for strings that only contain lowercase letters.

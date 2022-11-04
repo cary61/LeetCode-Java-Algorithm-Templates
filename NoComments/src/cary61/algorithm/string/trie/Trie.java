@@ -1,4 +1,4 @@
-package cary61.algorithm.tree.trie;
+package cary61.algorithm.string.trie;
 
 class Trie {
 

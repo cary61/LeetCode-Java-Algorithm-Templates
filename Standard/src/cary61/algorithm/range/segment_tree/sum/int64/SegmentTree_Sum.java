@@ -4,7 +4,7 @@ package cary61.algorithm.range.segment_tree.sum.int64;
  * A SegmentTree for maintain the sum of range.
  * Capital of updating new value, adding value to single points, and getting the sum of any query range.
  * Implemented by Node.
- *
+ * The public methods are advised to use.
  * The sum of any range should be guaranteed in range of int64.
  *
  * @author cary61
