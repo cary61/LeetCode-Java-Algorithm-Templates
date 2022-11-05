@@ -37,6 +37,8 @@ class SegmentTree_Min {
     }
 
     public int min(int l, int r) {
+        l = Math.max(l, LOWERBOUND);
+        r = Math.min(r, UPPERBOUND);
         if (l > r)  return DEFAULT_VALUE;
         if (l == r) return get(l, root, LOWERBOUND, UPPERBOUND);
         return min(l, r, root, LOWERBOUND, UPPERBOUND);

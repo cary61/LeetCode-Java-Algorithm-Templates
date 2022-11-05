@@ -108,6 +108,8 @@ class SegmentTree_Sum {
      * @return the sum of query range [l, r]
      */
     public int sum(int l, int r) {
+        l = Math.max(l, LOWERBOUND);
+        r = Math.min(r, UPPERBOUND);
         if (l > r)  return 0;
         if (l == r) return get(l, root, LOWERBOUND, UPPERBOUND);
         return sum(l, r, root, LOWERBOUND, UPPERBOUND);
