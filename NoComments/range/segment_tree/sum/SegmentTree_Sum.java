@@ -24,8 +24,8 @@ class SegmentTree_Sum {
         build(arr, root, LOWERBOUND, UPPERBOUND);
     }
 
-    public void update(int idx, int val) {
-        update(idx, val, root, LOWERBOUND, UPPERBOUND);
+    public void set(int idx, int val) {
+        set(idx, val, root, LOWERBOUND, UPPERBOUND);
     }
 
     public void add(int idx, int val) {
@@ -44,15 +44,15 @@ class SegmentTree_Sum {
 
     // Implementations below
 
-    void update(int idx, int val, Node node, int s, int t) {
+    void set(int idx, int val, Node node, int s, int t) {
         if (s == t) {
             node.sum = val;
             return;
         }
         int c = (s & t) + ((s ^ t) >> 1);
         if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
-        if (s <= c)     update(idx, val, node.lc, s, c);
-        else            update(idx, val, node.rc, c + 1, t);
+        if (idx <= c)   set(idx, val, node.lc, s, c);
+        else            set(idx, val, node.rc, c + 1, t);
         node.sum = node.lc.sum + node.rc.sum;
     }
 
