@@ -70,13 +70,13 @@ class SegmentTree_Max {
     }
 
     /**
-     * Update a single point with a new value.
+     * Set a single point with a new value.
      *
-     * @param idx the index of the single point to update
+     * @param idx the index of the single point to set
      * @param val the new value of the single point
      */
-    public void update(int idx, int val) {
-        update(idx, val, root, LOWERBOUND, UPPERBOUND);
+    public void set(int idx, int val) {
+        set(idx, val, root, LOWERBOUND, UPPERBOUND);
     }
 
     /**
@@ -114,15 +114,15 @@ class SegmentTree_Max {
 
     // Implementations below
 
-    void update(int idx, int val, Node node, int s, int t) {
+    void set(int idx, int val, Node node, int s, int t) {
         if (s == t) {
             node.max = val;
             return;
         }
         int c = (s & t) + ((s ^ t) >> 1);
         if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
-        if (idx <= c)   update(idx, val, node.lc, s, c);
-        else            update(idx, val, node.rc, c + 1, t);
+        if (idx <= c)   set(idx, val, node.lc, s, c);
+        else            set(idx, val, node.rc, c + 1, t);
         node.max = Math.max(node.lc.max, node.rc.max);
     }
 
