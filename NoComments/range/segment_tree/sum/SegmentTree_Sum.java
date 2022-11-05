@@ -11,6 +11,12 @@ class SegmentTree_Sum {
     int UPPERBOUND;
     Node root;
 
+    public SegmentTree_Sum() {
+        this.LOWERBOUND = Integer.MIN_VALUE;
+        this.UPPERBOUND = Integer.MAX_VALUE;
+        this.root = new Node();
+    }
+
     public SegmentTree_Sum(int LOWERBOUND, int UPPERBOUND) {
         this.LOWERBOUND = LOWERBOUND;
         this.UPPERBOUND = UPPERBOUND;

@@ -46,6 +46,16 @@ class SegmentTree_Sum {
     Node root;
 
     /**
+     * Instantiate a SegmentTree that maintains the range [MIN_INT, MAX_INT].
+     * The value of the points that have not been specified is DEFAULT_VALUE.
+     */
+    public SegmentTree_Sum() {
+        this.LOWERBOUND = Integer.MIN_VALUE;
+        this.UPPERBOUND = Integer.MAX_VALUE;
+        this.root = new Node();
+    }
+
+    /**
      * Instantiate a SegmentTree that maintains a range, with the lower-bound and upper-bound of it.
      * The value of the points that have not been specified is DEFAULT_VALUE.
      *

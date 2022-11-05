@@ -11,6 +11,12 @@ class SegmentTree_XorSum {
     int UPPERBOUND;
     Node root;
 
+    public SegmentTree_XorSum() {
+        this.LOWERBOUND = Integer.MIN_VALUE;
+        this.UPPERBOUND = Integer.MAX_VALUE;
+        this.root = new Node();
+    }
+
     public SegmentTree_XorSum(int LOWERBOUND, int UPPERBOUND) {
         this.LOWERBOUND = LOWERBOUND;
         this.UPPERBOUND = UPPERBOUND;
