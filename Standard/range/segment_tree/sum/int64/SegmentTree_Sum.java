@@ -1,5 +1,5 @@
 /**
- * A SegmentTree for maintain the sum of range.
+ * A SegmentTree, maintains the sum of range.
  * Capital of updating new value, adding value to single points, and getting the sum of any query range.
  * Implemented by Node.
  * The public methods are advised to use.

@@ -1,5 +1,5 @@
 /**
- * A SegmentTree for maintain the min value of range.
+ * A SegmentTree, maintains the min value of range.
  * Capital of updating new value, adding value to single points, and getting the min value of any query range.
  * Implemented by Node.
  * The public methods are advised to use.
