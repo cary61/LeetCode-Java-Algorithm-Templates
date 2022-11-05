@@ -121,7 +121,7 @@ class SegmentTree_Max {
         }
         int c = (s & t) + ((s ^ t) >> 1);
         if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
-        if (s <= c)     update(idx, val, node.lc, s, c);
+        if (idx <= c)   update(idx, val, node.lc, s, c);
         else            update(idx, val, node.rc, c + 1, t);
         node.max = Math.max(node.lc.max, node.rc.max);
     }
