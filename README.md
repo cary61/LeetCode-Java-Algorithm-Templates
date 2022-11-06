@@ -11,3 +11,4 @@ If you don't need to be told what to do, go get raw code without any comments in
 
 
 
+Because this project aims to be copied and pasted, there is no package relations between the java files. Though at the top of each java file, there might be commented lines that indicate what java package this solution needs. In case of on some OI, you need to import them yourself.
