@@ -11,7 +11,7 @@ class SegmentTree_Max {
     /**
      * The default value of the unspecified value
      */
-    static int DEFAULT_VALUE = Integer.MIN_VALUE;
+    static final int DEFAULT_VALUE = Integer.MIN_VALUE;
 
     /**
      * The node of tree structure.

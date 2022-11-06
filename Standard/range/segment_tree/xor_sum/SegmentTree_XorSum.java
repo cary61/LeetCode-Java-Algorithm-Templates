@@ -11,7 +11,7 @@ class SegmentTree_XorSum {
     /**
      * The default value of the unspecified value
      */
-    static int DEFAULT_VALUE = 0;
+    static final int DEFAULT_VALUE = 0;
 
     /**
      * The node of tree structure.

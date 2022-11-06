@@ -1,6 +1,6 @@
 class SegmentTree_Sum {
 
-    static int DEFAULT_VALUE = 0;
+    static final int DEFAULT_VALUE = 0;
 
     class Node {
         int sum = DEFAULT_VALUE;

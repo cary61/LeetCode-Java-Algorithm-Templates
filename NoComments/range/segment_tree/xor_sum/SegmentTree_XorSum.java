@@ -1,6 +1,6 @@
 class SegmentTree_XorSum {
 
-    static int DEFAULT_VALUE = 0;
+    static final int DEFAULT_VALUE = 0;
 
     class Node {
         int xorSum = DEFAULT_VALUE;

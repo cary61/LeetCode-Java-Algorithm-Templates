@@ -12,7 +12,7 @@ class SegmentTree_Sum {
     /**
      * The default value of the unspecified value
      */
-    static long DEFAULT_VALUE = 0;
+    static final long DEFAULT_VALUE = 0;
 
     /**
      * The node of tree structure.

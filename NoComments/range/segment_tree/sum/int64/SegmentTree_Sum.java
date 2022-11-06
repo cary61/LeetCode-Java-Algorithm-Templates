@@ -1,6 +1,6 @@
 class SegmentTree_Sum {
 
-    static long DEFAULT_VALUE = 0;
+    static final long DEFAULT_VALUE = 0;
 
     class Node {
         long sum;

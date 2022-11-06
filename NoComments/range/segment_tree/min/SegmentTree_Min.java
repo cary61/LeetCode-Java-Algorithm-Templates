@@ -1,6 +1,6 @@
 class SegmentTree_Min {
 
-    static int DEFAULT_VALUE = Integer.MAX_VALUE;
+    static final int DEFAULT_VALUE = Integer.MAX_VALUE;
 
     class Node {
         int min = DEFAULT_VALUE;
