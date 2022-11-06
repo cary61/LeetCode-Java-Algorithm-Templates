@@ -3,7 +3,7 @@ class SegmentTree_Sum {
     static final long DEFAULT_VALUE = 0;
 
     class Node {
-        long sum;
+        long sum = DEFAULT_VALUE;
         Node lc, rc;
     }
 

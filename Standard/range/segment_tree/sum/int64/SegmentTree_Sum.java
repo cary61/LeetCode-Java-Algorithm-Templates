@@ -22,7 +22,7 @@ class SegmentTree_Sum {
         /**
          * The sum of the range that this node represents.
          */
-        long sum;
+        long sum = DEFAULT_VALUE;
 
         /**
          * The left child and right child of this node.
