@@ -1,4 +1,4 @@
-import java.util.*;
+//import java.util.*;
 
 /**
  * A class that helps to use Rabin Karp algorithm.
@@ -141,6 +141,19 @@ class RabinKarp {
     }
 
     /**
+     * Check if str1[beginIndex : endIndex] matches str2.
+     * 
+     * @param str1 the first string
+     * @param beginIndex the lower bound of index of the first string
+     * @param endIndex the upper bound of index of the first string
+     * @param str2 the second string
+     * @return if they are matched
+     */
+    public static boolean match(String str1, int beginIndex, int endIndex, String str2) {
+        return match(str1, beginIndex, endIndex, str2, 0, str2.length() - 1);
+    }
+
+    /**
      * Check if str1 matches str2[beginIndex : endIndex].
      * 
      * @param str1 the first string
@@ -259,6 +272,19 @@ class RabinKarp {
     }
 
     /**
+     * Check if str1[beginIndex : endIndex] matches str2 by the hash arrays of them.
+     * 
+     * @param hash1 the hash array of the first string
+     * @param beginIndex the lower bound of index of the first string
+     * @param endIndex the upper bound of index of the first string
+     * @param hash2 the hash array of the second string
+     * @return if they are matched
+     */
+    public static boolean match(long[] hash1, int beginIndex, int endIndex, long[] hash2) {
+        return match(hash1, beginIndex, endIndex, hash2, 0, hash2.length - 2, P1, MOD1);
+    }
+
+    /**
      * Check if a string and a part of string are matched by the hash arrays of them.
      * 
      * @param hash1 the hash array of the first string
@@ -372,6 +398,19 @@ class RabinKarp {
      */
     public static boolean match(RabinString str1, RabinString str2) {
         return match(str1, 0, str1.hashA.length - 2, str2, 0, str2.hashA.length - 2);
+    }
+
+    /**
+     * Check if str1[beginIndex : endIndex] matches str2 by their RabinStrings.
+     * 
+     * @param str1 the RabinString of first string
+     * @param beginIndex the lower bound of index of the first string
+     * @param endIndex the upper bound of index of the first string
+     * @param str2 the RabinString of second string
+     * @return if they are matched
+     */
+    public static boolean match(RabinString str1, int beginIndex, int endIndex, RabinString str2) {
+        return match(str1, beginIndex, endIndex, str2, 0, str2.hashA.length - 2);
     }
 
     /**
