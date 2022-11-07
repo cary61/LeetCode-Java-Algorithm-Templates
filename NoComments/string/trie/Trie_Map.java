@@ -3,7 +3,7 @@
 class Trie_Map {
 
     class Node {
-        Map<Character,Node> next = new HashMap<Character,Node>();
+        java.util.Map<Character,Node> next = new java.util.HashMap<Character,Node>();
         boolean end;
     }
 

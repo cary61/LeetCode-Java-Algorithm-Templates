@@ -55,7 +55,7 @@ class RabinKarp {
     /**
      * Store the rolling hash arrray of any string.
      */
-    static Map<String, long[]> stringToHash = new HashMap<>();
+    static java.util.Map<String, long[]> stringToHash = new java.util.HashMap<>();
 
     /**
      * Prepare the weight array, initial length of 200, before using.

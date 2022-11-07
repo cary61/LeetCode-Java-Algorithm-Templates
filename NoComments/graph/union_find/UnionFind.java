@@ -15,7 +15,7 @@ class UnionFind {
             parent[i] = i;
         }
         this.size = new int[n];
-        Arrays.fill(size, 1);
+        java.util.Arrays.fill(size, 1);
     }
 
     void merge(int a, int b) {

@@ -17,7 +17,7 @@ class Trie_Map {
          * Represents if there is a way to down for specific letter, and points to it.
          * Each "next.contains(letter)" represents a condition of one letter.
          */
-        Map<Character,Node> next = new HashMap<Character,Node>();
+        java.util.Map<Character,Node> next = new java.util.HashMap<Character,Node>();
 
         /**
          * Represent if the prefix that the way down represents can be an intact word.
