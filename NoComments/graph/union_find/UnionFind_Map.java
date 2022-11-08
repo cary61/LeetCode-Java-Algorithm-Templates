@@ -79,17 +79,7 @@ class UnionFind_Map {
         else                            a = getRoot(a);
         if (!parent.containsKey(b))     insert(b);
         else                            b = getRoot(b);
-        if (a == b) return;
-        int aSize = size.get(a);
-        int bSize = size.get(b);
-        if (aSize < bSize) {
-            parent.put(a, b);
-            size.put(b, aSize + bSize);
-        } else {
-            parent.put(b, a);
-            size.put(a, bSize + aSize);
-        }
-        --count;
+        merge(a, b);
     }
 
     int getRootAuto(int x) {
@@ -97,18 +87,10 @@ class UnionFind_Map {
             insert(x);
             return x;
         }
-        int parent_node = parent.get(x);
-        if (parent_node == x) {
-            return x;
-        }
-        int root = getRoot(parent_node);
-        parent.put(x, root);
-        return root;
+        return getRoot(x);
     }
 
     boolean isConnectedAuto(int a, int b) {
-        if (!parent.containsKey(a)) insert(a);
-        if (!parent.containsKey(b)) insert(b);
-        return getRoot(a) == getRoot(b);
+        return getRootAuto(a) == getRootAuto(b);
     }
 }
