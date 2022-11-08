@@ -48,7 +48,7 @@ class SegmentTree_XorSum {
 
     
 
-    // Internal Implementation
+    // Internal Implementations
 
 
 

@@ -48,7 +48,7 @@ class SegmentTree_Max {
 
     
 
-    // Internal Implementation
+    // Internal Implementations
 
 
 

@@ -48,7 +48,7 @@ class SegmentTree_Sum {
 
     
 
-    // Internal Implementation
+    // Internal Implementations
 
 
 

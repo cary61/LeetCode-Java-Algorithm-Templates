@@ -48,7 +48,7 @@ class SegmentTree_Min {
 
     
 
-    // Internal Implementation
+    // Internal Implementations
 
 
 
