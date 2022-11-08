@@ -216,7 +216,7 @@ class RabinKarp {
      * @return the index of needle in haystack, if non-existed, -1
      */
     public static int indexOf(long[] haystackHash, long[] needleHash) {
-        return indexOf(haystackHash, 0, haystackHash.length - 2, needleHash, 0, needleHash.length - 2);
+        return indexOf(haystackHash, 0, haystackHash.length - 2, needleHash, 0, needleHash.length - 2, P1, MOD1);
     }
     
     /**
@@ -228,7 +228,7 @@ class RabinKarp {
      * @return the index of part of needle in part of haystack, if non-existed, -1
      */
     public static int indexOf(long[] haystackHash, int fromIndex, long[] needleHash) {
-        return indexOf(haystackHash, fromIndex, haystackHash.length - 2, needleHash, 0, needleHash.length - 2);
+        return indexOf(haystackHash, fromIndex, haystackHash.length - 2, needleHash, 0, needleHash.length - 2, P1, MOD1);
     }
 
     /**
@@ -242,7 +242,7 @@ class RabinKarp {
      * @return the index of part of needle in part of haystack, if non-existed, -1
      */
     public static int indexOf(long[] haystackHash, int fromIndex, long[] needleHash, int beginIndex, int endIndex) {
-        return indexOf(haystackHash, fromIndex, haystackHash.length - 2, needleHash, beginIndex, endIndex);
+        return indexOf(haystackHash, fromIndex, haystackHash.length - 2, needleHash, beginIndex, endIndex, P1, MOD1);
     }
 
     /**
@@ -446,10 +446,12 @@ class RabinKarp {
 
 
 
-    // Implementations
+    // Inner Implementations
 
 
 
+
+    
     /**
      * Find the index of the part of string needle in part of string haystack by their hash arrays, if non-existed, return -1.
      * 

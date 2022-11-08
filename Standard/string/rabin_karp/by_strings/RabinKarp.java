@@ -169,7 +169,7 @@ class RabinKarp {
 
 
     
-    // Implementations
+    // Inner Implementations
 
 
 
