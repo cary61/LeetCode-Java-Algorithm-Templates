@@ -44,7 +44,7 @@ class UnionFind {
             parent[i] = i;  // Each vertex is initially in a connectivity component that only contains itself as root.
         }
         this.size = new int[n];
-        Arrays.fill(size, 1);  // Initially every connectivity component only has one vertex in.
+        java.util.Arrays.fill(size, 1);  // Initially every connectivity component only has one vertex in.
     }
 
     /**
