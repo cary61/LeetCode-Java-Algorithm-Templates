@@ -1,8 +1,7 @@
-
-class SegmentTree_GCD {
+class SegmentTree_LCM {
     
     class Node {
-        int gcd;
+        int lcm;
         Node lc, rc;
     }
     
@@ -11,7 +10,7 @@ class SegmentTree_GCD {
     Node root;
     int[] arr;
     
-    public SegmentTree_GCD(int[] arr) {
+    public SegmentTree_LCM(int[] arr) {
         this.LOWERBOUND = 0;
         this.UPPERBOUND = arr.length - 1;
         this.root = new Node();
@@ -26,7 +25,7 @@ class SegmentTree_GCD {
     public void add(int idx, int val) {
         add(idx, val, root, LOWERBOUND, UPPERBOUND);
     }
-
+    
     public void multiply(int idx, int val) {
         multiply(idx, val, root, LOWERBOUND, UPPERBOUND);
     }
@@ -35,75 +34,66 @@ class SegmentTree_GCD {
         return arr[idx];
     }
     
-    public int gcd(int l, int r) {
-        return gcd(l, r, root, LOWERBOUND, UPPERBOUND);
+    public int lcm(int l, int r) {
+        return lcm(l, r, root, LOWERBOUND, UPPERBOUND);
     }
-
-
     
-    // Internal Implementations
 
+
+    // Internal Implementations
+    
 
 
     void set(int idx, int val, Node node, int s, int t) {
         if (s == t) {
-            node.gcd = val;
+            node.lcm = val;
             arr[s] = val;
             return;
         }
         int c = (s & t) + ((s ^ t) >> 1);
         if (idx <= c)   set(idx, val, node.lc, s, c);
         else            set(idx, val, node.rc, c + 1, t);
-        node.gcd = getGcd(node.lc.gcd, node.rc.gcd);
+        node.lcm = getLcm(node.lc.lcm, node.rc.lcm);
     }
 
     void add(int idx, int val, Node node, int s, int t) {
         if (s == t) {
-            node.gcd += val;
+            node.lcm += val;
             arr[s] += val;
             return;
         }
         int c = (s & t) + ((s ^ t) >> 1);
         if (idx <= c)   add(idx, val, node.lc, s, c);
         else            add(idx, val, node.rc, c + 1, t);
-        node.gcd = getGcd(node.lc.gcd, node.rc.gcd);
+        node.lcm = getLcm(node.lc.lcm, node.rc.lcm);
     }
 
     void multiply(int idx, int val, Node node, int s, int t) {
         if (s == t) {
-            node.gcd *= val;
+            node.lcm *= val;
             arr[s] *= val;
             return;
         }
         int c = (s & t) + ((s ^ t) >> 1);
         if (idx <= c)   multiply(idx, val, node.lc, s, c);
         else            multiply(idx, val, node.rc, c + 1, t);
-        node.gcd = getGcd(node.lc.gcd, node.rc.gcd);
+        node.lcm = getLcm(node.lc.lcm, node.rc.lcm);
     }
 
-    int get(int idx, Node node, int s, int t) {
-        if (s == t) {
-            return node.gcd;
-        }
-        int c = (s & t) + ((s ^ t) >> 1);
-        if (idx <= c)   return get(idx, node.lc, s, c);
-        else            return get(idx, node.rc, c + 1, t);
-    }
-
-    int gcd(int l, int r, Node node, int s, int t) {
+    int lcm(int l, int r, Node node, int s, int t) {
         if (l <= s && t <= r) {
-            return node.gcd;
+            return node.lcm;
         }
         int c = (s & t) + ((s ^ t) >> 1);
         int ret = -1;
-        if (l <= c) ret = gcd(l, r, node.lc, s, c);
-        if (c < r)  ret = ret == -1 ? gcd(l, r, node.rc, c + 1, t): getGcd(ret, gcd(l, r, node.rc, c + 1, t));
+        if (l <= c) ret = lcm(l, r, node.lc, s, c);
+        if (c < r)  ret = ret == -1 ? lcm(l, r, node.rc, c + 1, t): getLcm(ret, lcm(l, r, node.rc, c + 1, t));
         return ret;
     }
 
     void build(int[] arr, Node node, int s, int t) {
         if (s == t) {
-            node.gcd = arr[s];
+            node.lcm = arr[s];
             return;
         }
         int c = (s & t) +((s ^ t) >> 1);
@@ -111,7 +101,7 @@ class SegmentTree_GCD {
         node.rc = new Node();
         build(arr, node.lc, s, c);
         build(arr, node.rc, c + 1, t);
-        node.gcd = getGcd(node.lc.gcd, node.rc.gcd);
+        node.lcm = getLcm(node.lc.lcm, node.rc.lcm);
     }
 
     int getGcd(int a, int b) {
@@ -122,5 +112,9 @@ class SegmentTree_GCD {
             b = m;
         }
         return a;
+    }
+
+    int getLcm(int a, int b) {
+        return a / getGcd(a, b) * b;
     }
 }
