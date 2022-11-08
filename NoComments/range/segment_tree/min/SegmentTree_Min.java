@@ -38,6 +38,10 @@ class SegmentTree_Min {
         add(idx, val, root, LOWERBOUND, UPPERBOUND);
     }
 
+    public void multiply(int idx, int val) {
+        multiply(idx, val, root, LOWERBOUND, UPPERBOUND);
+    }
+
     public int get(int idx) {
         return get(idx, root, LOWERBOUND, UPPERBOUND);
     }
@@ -73,6 +77,17 @@ class SegmentTree_Min {
         if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
         if (idx <= c)   add(idx, val, node.lc, s, c);
         else            add(idx, val, node.rc, c + 1, t);
+        node.min = Math.min(node.lc.min, node.rc.min);
+    }
+
+    void multiply(int idx, int val, Node node, int s, int t) {
+        if (s == t) {
+            node.min *= val;
+            return;
+        }
+        int c = (s & t) + ((s ^ t) >> 1);
+        if (idx <= c)   multiply(idx, val, node.lc, s, c);
+        else            multiply(idx, val, node.rc, c + 1, t);
         node.min = Math.min(node.lc.min, node.rc.min);
     }
 

@@ -8,6 +8,7 @@ target/
 
 # Test file
 Test/
+notes.txt
 
 # Log file
 *.log

@@ -68,13 +68,23 @@ class SegmentTree_GCD {
     }
 
     /**
-     * Add a value to a single point
+     * Add a value to a single point.
      *
      * @param idx the index of the single point
      * @param val the value that added to the single point
      */
     public void add(int idx, int val) {
         add(idx, val, root, LOWERBOUND, UPPERBOUND);
+    }
+
+    /**
+     * Make a single point multiply a value.
+     * 
+     * @param idx the index of the single point
+     * @param val the value that be multiplied
+     */
+    public void multiply(int idx, int val) {
+        multiply(idx, val, root, LOWERBOUND, UPPERBOUND);
     }
 
     /**
@@ -124,13 +134,16 @@ class SegmentTree_GCD {
         node.gcd = getGcd(node.lc.gcd, node.rc.gcd);
     }
 
-    int get(int idx, Node node, int s, int t) {
+    void multiply(int idx, int val, Node node, int s, int t) {
         if (s == t) {
-            return node.gcd;
+            node.gcd *= val;
+            arr[s] *= val;
+            return;
         }
         int c = (s & t) + ((s ^ t) >> 1);
-        if (idx <= c)   return get(idx, node.lc, s, c);
-        else            return get(idx, node.rc, c + 1, t);
+        if (idx <= c)   multiply(idx, val, node.lc, s, c);
+        else            multiply(idx, val, node.rc, c + 1, t);
+        node.gcd = getGcd(node.lc.gcd, node.rc.gcd);
     }
 
     int gcd(int l, int r, Node node, int s, int t) {
