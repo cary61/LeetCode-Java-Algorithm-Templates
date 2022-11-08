@@ -117,14 +117,14 @@ class SegmentTree_Max {
      * @return the sum of query range [l, r]
      */
     public int max(int l, int r) {
-        l = Math.max(l, LOWERBOUND);
-        r = Math.min(r, UPPERBOUND);
-        if (l > r)  return DEFAULT_VALUE;
-        if (l == r) return get(l, root, LOWERBOUND, UPPERBOUND);
         return max(l, r, root, LOWERBOUND, UPPERBOUND);
     }
 
-    // Implementations below
+    
+
+    // Internal Implementation
+
+
 
     void set(int idx, int val, Node node, int s, int t) {
         if (s == t) {

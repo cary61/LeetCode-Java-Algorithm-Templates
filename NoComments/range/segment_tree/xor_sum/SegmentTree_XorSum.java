@@ -43,14 +43,14 @@ class SegmentTree_XorSum {
     }
 
     public int xorSum(int l, int r) {
-        l = Math.max(l, LOWERBOUND);
-        r = Math.min(r, UPPERBOUND);
-        if (l > r)  return 0;
-        if (l == r) return get(l, root, LOWERBOUND, UPPERBOUND);
         return xorSum(l, r, root, LOWERBOUND, UPPERBOUND);
     }
 
-    // Implementations below
+    
+
+    // Internal Implementation
+
+
 
     void set(int idx, int val, Node node, int s, int t) {
         if (s == t) {

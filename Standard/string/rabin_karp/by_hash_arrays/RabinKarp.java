@@ -42,17 +42,6 @@ class RabinKarp {
         weight[0] = 1;
     }
 
-
-
-
-
-    
-    // Solution 2:
-
-
-
-
-
     /**
      * Get the hash array of a string.
      * 
@@ -143,7 +132,7 @@ class RabinKarp {
      * @return if they are matched
      */
     public static boolean match(long[] hash1, long[] hash2) {
-        return match(hash1, 0, hash1.length - 2, hash2, 0, hash2.length - 2, P1, MOD1);
+        return match(hash1, 0, hash1.length - 2, hash2, 0, hash2.length - 2);
     }
 
     /**
@@ -156,7 +145,7 @@ class RabinKarp {
      * @return if they are matched
      */
     public static boolean match(long[] hash1, int beginIndex, int endIndex, long[] hash2) {
-        return match(hash1, beginIndex, endIndex, hash2, 0, hash2.length - 2, P1, MOD1);
+        return match(hash1, beginIndex, endIndex, hash2, 0, hash2.length - 2);
     }
 
     /**
@@ -169,7 +158,7 @@ class RabinKarp {
      * @return if they are matched
      */
     public static boolean match(long[] hash1, long[] hash2, int beginIndex, int endIndex) {
-        return match(hash1, 0, hash1.length - 2, hash2, beginIndex, endIndex, P1, MOD1);
+        return match(hash1, 0, hash1.length - 2, hash2, beginIndex, endIndex);
     }
 
     /**
@@ -184,28 +173,6 @@ class RabinKarp {
      * @return if they are matched
      */
     public static boolean match(long[] hash1, int beginIndex1, int endIndex1, long[] hash2, int beginIndex2, int endIndex2) {
-        return match(hash1, beginIndex1, endIndex1, hash2, beginIndex2, endIndex2, P1, MOD1);
-    }
-
-
-
-    // Inner Implementations
-
-
-    /**
-     * Check if 2 parts of strings are matched by the hash arrays of them.
-     * 
-     * @param hash1 the hash array of the first string
-     * @param beginIndex1 the lower bound of index of the first string
-     * @param endIndex1 the upper bound of index of the first string
-     * @param hash2 the hash array of the second string
-     * @param beginIndex2 the lower bound of index of the second string
-     * @param endIndex2 the upper bound of index of the second string
-     * @param P the P in Rabin Karp algorithm
-     * @param MOD the MOD in Rabin Karp algorigthm
-     * @return if they are matched
-     */
-    static boolean match(long[] hash1, int beginIndex1, int endIndex1, long[] hash2, int beginIndex2, int endIndex2, long P, long MOD) {
         int n = endIndex1 - beginIndex1 + 1;
         if (n != endIndex2 - beginIndex2 + 1) {
             return false;
@@ -213,6 +180,12 @@ class RabinKarp {
         return (((hash1[endIndex1 + 1] - hash1[beginIndex1] * weight[n]) % MOD + MOD) % MOD) 
             == (((hash2[endIndex2 + 1] - hash2[beginIndex2] * weight[n]) % MOD + MOD) % MOD);
     }
+
+
+
+    // Internal Implementation
+
+    
     
     /**
      * Extends the weight array.
