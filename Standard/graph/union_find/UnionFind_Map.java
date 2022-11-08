@@ -44,7 +44,7 @@ class UnionFind_Map {
     /**
      * Instantiate a UnionFind that maintains the connectivity of n vertexes.
      *
-     * @param n the quantity of vertexes
+     * @param nums the vertex array
      */
     UnionFind_Map(int[] nums) {
         this.n = nums.length;
@@ -157,19 +157,7 @@ class UnionFind_Map {
         else                            a = getRoot(a);
         if (!parent.containsKey(b))     insert(b);
         else                            b = getRoot(b);
-        if (a == b) { // a and b are already in the same connectivity component.
-            return;
-        }
-        int aSize = size.get(a);
-        int bSize = size.get(b);
-        if (aSize < bSize) { // Keep the depth as shallow as possible, to optimize the efficiency to get root.
-            parent.put(a, b);
-            size.put(b, aSize + bSize);
-        } else {
-            parent.put(b, a);
-            size.put(a, bSize + aSize);
-        }
-        --count; // Maintain the quantity of connectivity components
+        merge(a, b);
     }
 
     /**
@@ -184,13 +172,7 @@ class UnionFind_Map {
             insert(x);
             return x;
         }
-        int parent_node = parent.get(x);
-        if (parent_node == x) {
-            return x;
-        }
-        int root = getRoot(parent_node);
-        parent.put(x, root);
-        return root;
+        return getRoot(x);
     }
 
     /**
@@ -202,8 +184,6 @@ class UnionFind_Map {
      * @return if they are in the same connectivity or not
      */
     boolean isConnectedAuto(int a, int b) {
-        if (!parent.containsKey(a)) insert(a);
-        if (!parent.containsKey(b)) insert(b);
-        return getRoot(a) == getRoot(b);
+        return getRootAuto(a) == getRootAuto(b);
     }
 }
