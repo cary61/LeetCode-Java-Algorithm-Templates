@@ -6,6 +6,9 @@
 target/
 *.iml
 
+# Test file
+Test/
+
 # Log file
 *.log
 
