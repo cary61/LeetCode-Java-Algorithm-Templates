@@ -85,6 +85,7 @@ class SegmentTree_Sum {
             return;
         }
         int c = (s & t) + ((s ^ t) >> 1);
+        if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
         if (idx <= c)   multiply(idx, val, node.lc, s, c);
         else            multiply(idx, val, node.rc, c + 1, t);
         node.sum = node.lc.sum + node.rc.sum;

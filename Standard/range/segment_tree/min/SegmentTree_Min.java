@@ -1,6 +1,6 @@
 /**
  * A SegmentTree, maintains the min value of range.
- * Capital of updating new value, adding value to single points, and getting the min value of any query range.
+ * Capital of updating new value, adding value to single points, multiplying value to single points, and getting the min value of any query range.
  * Implemented by Node.
  * The public methods are advised to use.
  *
@@ -166,6 +166,7 @@ class SegmentTree_Min {
             return;
         }
         int c = (s & t) + ((s ^ t) >> 1);
+        if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
         if (idx <= c)   multiply(idx, val, node.lc, s, c);
         else            multiply(idx, val, node.rc, c + 1, t);
         node.min = Math.min(node.lc.min, node.rc.min);

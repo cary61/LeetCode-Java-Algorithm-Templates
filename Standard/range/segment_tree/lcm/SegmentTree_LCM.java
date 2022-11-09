@@ -1,6 +1,6 @@
 /**
  * A SegmentTree, maintains the leatest common multiple of range.
- * Capital of updating new value, adding value to single points, and getting the leatest common multiple of any query range.
+ * Capital of updating new value, adding value to single points, multiplying value to single points, and getting the leatest common multiple of any query range.
  * Implemented by Node.
  * The public methods are advised to use.
  *

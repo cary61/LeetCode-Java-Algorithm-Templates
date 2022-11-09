@@ -1,18 +1,18 @@
 /**
- * A SegmentTree, maintains the product of range.
- * Capital of updating new value, adding value to single points, multiplying value to single points, and getting the product of any query range.
+ * A SegmentTree, maintains the sum of range.
+ * Capital of updating new value, adding value, multiplying value to single points, cover range with new value, and getting the sum of any query range.
  * Implemented by Node.
  * The public methods are advised to use.
- * The product of any range should be guaranteed in range of int32. If not, use the int64 version.
+ * The sum of any range should be guaranteed in range of int32. If not, use the int64 version.
  *
  * @author cary61
  */
-class SegmentTree_Product {
+class SegmentTree_Sum_Cover {
 
     /**
      * The default value of the unspecified value
      */
-    static final int DEFAULT_VALUE = 1;
+    static final int DEFAULT_VALUE = 0;
 
     /**
      * The node of tree structure.
@@ -20,14 +20,24 @@ class SegmentTree_Product {
     class Node {
 
         /**
-         * The product of the range that this node represents.
+         * The sum of the range that this node represents.
          */
-        int product = DEFAULT_VALUE;
+        int sum = DEFAULT_VALUE;
 
         /**
          * The left child and right child of this node.
          */
         Node lc, rc;
+
+        /**
+         * The value that should cover this node.
+         */
+        int lazyCover;
+
+        /**
+         * When false, represents the lazyCover should be push down.
+         */
+        boolean updated = true;
     }
 
     /**
@@ -49,7 +59,7 @@ class SegmentTree_Product {
      * Instantiate a SegmentTree that maintains the range [MIN_INT, MAX_INT].
      * The value of the points that have not been specified is DEFAULT_VALUE.
      */
-    public SegmentTree_Product() {
+    public SegmentTree_Sum_Cover() {
         this.LOWERBOUND = Integer.MIN_VALUE;
         this.UPPERBOUND = Integer.MAX_VALUE;
         this.root = new Node();
@@ -62,7 +72,7 @@ class SegmentTree_Product {
      * @param LOWERBOUND the lower-bound of range
      * @param UPPERBOUND the upper-bound of range
      */
-    public SegmentTree_Product(int LOWERBOUND, int UPPERBOUND) {
+    public SegmentTree_Sum_Cover(int LOWERBOUND, int UPPERBOUND) {
         this.LOWERBOUND = LOWERBOUND;
         this.UPPERBOUND = UPPERBOUND;
         this.root = new Node();
@@ -73,7 +83,7 @@ class SegmentTree_Product {
      *
      * @param arr The array that SegmentTree maintains
      */
-    public SegmentTree_Product(int[] arr) {
+    public SegmentTree_Sum_Cover(int[] arr) {
         this.LOWERBOUND = 0;
         this.UPPERBOUND = arr.length - 1;
         this.root = new Node();
@@ -111,6 +121,17 @@ class SegmentTree_Product {
     }
 
     /**
+     * Cover every single point of range with new value.
+     * 
+     * @param l  the lower-bound of the range
+     * @param r the upper-bound of the range
+     * @param val the new value
+     */
+    public void cover(int l, int r, int val) {
+        cover(l, r, val, root, LOWERBOUND, UPPERBOUND);
+    }
+
+    /**
      * Get the value of a single point.
      *
      * @param idx the index of the single point
@@ -121,14 +142,14 @@ class SegmentTree_Product {
     }
 
     /**
-     * Get the product of range [l, r].
+     * Get the sum of range [l, r].
      *
      * @param l the lower-bound of query range
      * @param r the upper-bound of query range
-     * @return the product of query range [l, r]
+     * @return the sum of query range [l, r]
      */
-    public int product(int l, int r) {
-        return product(l, r, root, LOWERBOUND, UPPERBOUND);
+    public int sum(int l, int r) {
+        return sum(l, r, root, LOWERBOUND, UPPERBOUND);
     }
 
     
@@ -139,64 +160,86 @@ class SegmentTree_Product {
 
     void set(int idx, int val, Node node, int s, int t) {
         if (s == t) {
-            node.product = val;
+            node.sum = val;
             return;
         }
         int c = (s & t) + ((s ^ t) >> 1);
         if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
+        this.pushDown(node, s, t, c);
         if (idx <= c)   set(idx, val, node.lc, s, c);
         else            set(idx, val, node.rc, c + 1, t);
-        node.product = node.lc.product * node.rc.product;
+        node.sum = node.lc.sum + node.rc.sum;
     }
 
     void add(int idx, int val, Node node, int s, int t) {
+        node.sum += val;
         if (s == t) {
-            node.product += val;
             return;
         }
         int c = (s & t) + ((s ^ t) >> 1);
         if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
+        this.pushDown(node, s, t, c);
         if (idx <= c)   add(idx, val, node.lc, s, c);
         else            add(idx, val, node.rc, c + 1, t);
-        node.product = node.lc.product * node.rc.product;
     }
 
     void multiply(int idx, int val, Node node, int s, int t) {
         if (s == t) {
-            node.product *= val;
+            node.sum *= val;
             return;
         }
         int c = (s & t) + ((s ^ t) >> 1);
         if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
+        this.pushDown(node, s, t, c);
         if (idx <= c)   multiply(idx, val, node.lc, s, c);
         else            multiply(idx, val, node.rc, c + 1, t);
-        node.product = node.lc.product * node.rc.product;
+        node.sum = node.lc.sum + node.rc.sum;
+    }
+
+    void cover(int l, int r, int val, Node node, int s, int t) {
+        if (l <= s && t <= r) {
+            node.sum = (t - s + 1) * val;
+            if (s != t) {
+                node.lazyCover = val;
+                node.updated = false;
+            }
+            return;
+        }
+        int c = (s & t) + ((s ^ t) >> 1);
+        if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
+        this.pushDown(node, s, t, c);
+        if (l <= c)         cover(l, r, val, node.lc, s, c);
+        if (c < r)     cover(l, r, val, node.rc, c + 1, t);
+        node.sum = node.lc.sum + node.rc.sum;
     }
 
     int get(int idx, Node node, int s, int t) {
         if (s == t) {
-            return node.product;
-        }
-        int c = (s & t) + ((s ^ t) >> 1);
-        if (idx <= c)   return node.lc == null ? DEFAULT_VALUE : get(idx, node.lc, s, c);
-        else            return node.rc == null ? DEFAULT_VALUE : get(idx, node.rc, c + 1, t);
-    }
-
-    int product(int l, int r, Node node, int s, int t) {
-        if (l <= s && t <= r) {
-            return node.product;
+            return node.sum;
         }
         int c = (s & t) + ((s ^ t) >> 1);
         if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
-        int ret = 1;
-        if (l <= c) ret = product(l, r, node.lc, s, c);
-        if (c < r)  ret += product(l, r, node.rc, c + 1, t);
+        this.pushDown(node, s, t, c);
+        if (idx <= c)   return get(idx, node.lc, s, c);
+        else            return get(idx, node.rc, c + 1, t);
+    }
+
+    int sum(int l, int r, Node node, int s, int t) {
+        if (l <= s && t <= r) {
+            return node.sum;
+        }
+        int c = (s & t) + ((s ^ t) >> 1);
+        if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
+        this.pushDown(node, s, t, c);
+        int ret = 0;
+        if (l <= c) ret = sum(l, r, node.lc, s, c);
+        if (c < r)  ret += sum(l, r, node.rc, c + 1, t);
         return ret;
     }
 
     void build(int[] arr, Node node, int s, int t) {
         if (s == t) {
-            node.product = arr[s];
+            node.sum = arr[s];
             return;
         }
         int c = (s & t) +((s ^ t) >> 1);
@@ -204,6 +247,20 @@ class SegmentTree_Product {
         node.rc = new Node();
         build(arr, node.lc, s, c);
         build(arr, node.rc, c + 1, t);
-        node.product = node.lc.product * node.rc.product;
+        node.sum = node.lc.sum + node.rc.sum;
+    }
+
+    void pushDown(Node node, int s, int t, int c) {
+        if (!node.updated) {
+            node.lc.sum = (c - s + 1) * node.lazyCover;
+            node.lc.lazyCover = node.lazyCover;
+            node.lc.updated = false;
+
+            node.rc.sum = (t - c) * node.lazyCover;
+            node.rc.lazyCover = node.lazyCover;
+            node.rc.updated = false;
+
+            node.updated = true;
+        }
     }
 }

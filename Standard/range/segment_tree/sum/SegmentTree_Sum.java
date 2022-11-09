@@ -1,6 +1,6 @@
 /**
  * A SegmentTree, maintains the sum of range.
- * Capital of updating new value, adding value to single points, and getting the sum of any query range.
+ * Capital of updating new value, adding value to single points, multiplying value to single points, and getting the sum of any query range.
  * Implemented by Node.
  * The public methods are advised to use.
  * The sum of any range should be guaranteed in range of int32. If not, use the int64 version.
@@ -166,6 +166,7 @@ class SegmentTree_Sum {
             return;
         }
         int c = (s & t) + ((s ^ t) >> 1);
+        if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
         if (idx <= c)   multiply(idx, val, node.lc, s, c);
         else            multiply(idx, val, node.rc, c + 1, t);
         node.sum = node.lc.sum + node.rc.sum;
