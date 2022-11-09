@@ -31,11 +31,6 @@ class RabinKarp {
     static long[] weight = new long[maxStringLength + 1];
 
     /**
-     * Store the rolling hash arrray of any string.
-     */
-    static java.util.Map<String, long[]> stringToHash = new java.util.HashMap<>();
-
-    /**
      * Prepare the weight array, initial length of 200, before using.
      */
     static {
