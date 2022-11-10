@@ -1,18 +1,18 @@
 /**
  * A SegmentTree, maintains the sum of range.
- * Capital of updating new value, adding value, multiplying value to single points, and cover range with new value, getting the sum of any query range.
+ * Capital of updating new value, adding value, multiplying value to single points, and adding value to range, getting the sum of any query range.
  * Implemented by Node.
  * The public methods are advised to use.
  * The sum of any range should be guaranteed in range of int64.
  *
  * @author cary61
  */
-class SegmentTree_Sum_Cover {
+class SegmentTree_Sum_Add {
 
     /**
      * The default value of the unspecified value
      */
-    static final long DEFAULT_VALUE = 0;
+    static final int DEFAULT_VALUE = 0;
 
     /**
      * The node of tree structure.
@@ -32,12 +32,7 @@ class SegmentTree_Sum_Cover {
         /**
          * The value that should cover this node.
          */
-        long lazyCover;
-
-        /**
-         * When false, represents the lazyCover should be push down.
-         */
-        boolean updated = true;
+        long lazyAdd;
     }
 
     /**
@@ -59,7 +54,7 @@ class SegmentTree_Sum_Cover {
      * Instantiate a SegmentTree that maintains the range [MIN_INT, MAX_INT].
      * The value of the points that have not been specified is DEFAULT_VALUE.
      */
-    public SegmentTree_Sum_Cover() {
+    public SegmentTree_Sum_Add() {
         this.LOWERBOUND = Integer.MIN_VALUE;
         this.UPPERBOUND = Integer.MAX_VALUE;
         this.root = new Node();
@@ -72,7 +67,7 @@ class SegmentTree_Sum_Cover {
      * @param LOWERBOUND the lower-bound of range
      * @param UPPERBOUND the upper-bound of range
      */
-    public SegmentTree_Sum_Cover(int LOWERBOUND, int UPPERBOUND) {
+    public SegmentTree_Sum_Add(int LOWERBOUND, int UPPERBOUND) {
         this.LOWERBOUND = LOWERBOUND;
         this.UPPERBOUND = UPPERBOUND;
         this.root = new Node();
@@ -83,7 +78,7 @@ class SegmentTree_Sum_Cover {
      *
      * @param arr The array that SegmentTree maintains
      */
-    public SegmentTree_Sum_Cover(int[] arr) {
+    public SegmentTree_Sum_Add(int[] arr) {
         this.LOWERBOUND = 0;
         this.UPPERBOUND = arr.length - 1;
         this.root = new Node();
@@ -127,8 +122,8 @@ class SegmentTree_Sum_Cover {
      * @param r the upper-bound of the range
      * @param val the new value
      */
-    public void cover(int l, int r, int val) {
-        cover(l, r, val, root, LOWERBOUND, UPPERBOUND);
+    public void add(int l, int r, int val) {
+        add(l, r, val, root, LOWERBOUND, UPPERBOUND);
     }
 
     /**
@@ -196,20 +191,19 @@ class SegmentTree_Sum_Cover {
         node.sum = node.lc.sum + node.rc.sum;
     }
 
-    void cover(int l, int r, int val, Node node, int s, int t) {
+    void add(int l, int r, int val, Node node, int s, int t) {
         if (l <= s && t <= r) {
-            node.sum = (t - s + 1) * val;
+            node.sum += (t - s + 1) * val;
             if (s != t) {
-                node.lazyCover = val;
-                node.updated = false;
+                node.lazyAdd += val;
             }
             return;
         }
         int c = (s & t) + ((s ^ t) >> 1);
         if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
         this.pushDown(node, s, t, c);
-        if (l <= c)    cover(l, r, val, node.lc, s, c);
-        if (c < r)     cover(l, r, val, node.rc, c + 1, t);
+        if (l <= c)     add(l, r, val, node.lc, s, c);
+        if (c < r)      add(l, r, val, node.rc, c + 1, t);
         node.sum = node.lc.sum + node.rc.sum;
     }
 
@@ -251,16 +245,14 @@ class SegmentTree_Sum_Cover {
     }
 
     void pushDown(Node node, int s, int t, int c) {
-        if (!node.updated) {
-            node.lc.sum = (c - s + 1) * node.lazyCover;
-            node.lc.lazyCover = node.lazyCover;
-            node.lc.updated = false;
+        if (node.lazyAdd != 0) {
+            node.lc.sum += (c - s + 1) * node.lazyAdd;
+            node.lc.lazyAdd += node.lazyAdd;
 
-            node.rc.sum = (t - c) * node.lazyCover;
-            node.rc.lazyCover = node.lazyCover;
-            node.rc.updated = false;
+            node.rc.sum += (t - c) * node.lazyAdd;
+            node.rc.lazyAdd += node.lazyAdd;
 
-            node.updated = true;
+            node.lazyAdd = 0;
         }
     }
 }
