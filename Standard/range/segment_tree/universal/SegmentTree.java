@@ -45,7 +45,7 @@ class SegmentTree {
     /**
      * The operation of pushing up.
      */
-    PushUp pushUp;
+    java.util.function.IntBinaryOperator pushUp;
 
     /**
      * Instantiate a SegmentTree that maintains a range, with the lower-bound and upper-bound of it.
@@ -55,7 +55,7 @@ class SegmentTree {
      * @param UPPERBOUND the upper-bound of range
      * @param DEFAULT_VALUE the default value of the unspecified point
      */
-    public SegmentTree(int LOWERBOUND, int UPPERBOUND, int DEFAULT_VALUE, PushUp pushUp) {
+    public SegmentTree(int LOWERBOUND, int UPPERBOUND, int DEFAULT_VALUE, java.util.function.IntBinaryOperator pushUp) {
         this.LOWERBOUND = LOWERBOUND;
         this.UPPERBOUND = UPPERBOUND;
         this.DEFAULT_VALUE = DEFAULT_VALUE;
@@ -64,13 +64,13 @@ class SegmentTree {
     }
     
     /**
-     * Do specified operation to single point.
+     * Update a single point to new value.
      * 
      * @param idx the index of single point
      * @param operation the operation
      */
-    public void operate(int idx, Operation operation) {
-        operate(idx, operation, root, LOWERBOUND, UPPERBOUND);
+    public void update(int idx, Operation operation) {
+        update(idx, operation, root, LOWERBOUND, UPPERBOUND);
     }
 
     /**
@@ -130,16 +130,16 @@ class SegmentTree {
 
 
 
-    void operate(int idx, Operation operation, Node node, int s, int t) {
+    void update(int idx, Operation operation, Node node, int s, int t) {
         if (s == t) {
             node.value = operation.operate(node.value);
             return;
         }
         int c = (s & t) + ((s ^ t) >> 1);
         if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
-        if (idx <= c)   operate(idx, operation, node.lc, s, c);
-        else            operate(idx, operation, node.rc, c + 1, t);
-        node.value = pushUp.pushUp(node.lc.value, node.rc.value);
+        if (idx <= c)   update(idx, operation, node.lc, s, c);
+        else            update(idx, operation, node.rc, c + 1, t);
+        node.value = pushUp.applyAsInt(node.lc.value, node.rc.value);
     }
 
     void set(int idx, int val, Node node, int s, int t) {
@@ -151,7 +151,7 @@ class SegmentTree {
         if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
         if (idx <= c)   set(idx, val, node.lc, s, c);
         else            set(idx, val, node.rc, c + 1, t);
-        node.value = pushUp.pushUp(node.lc.value, node.rc.value);
+        node.value = pushUp.applyAsInt(node.lc.value, node.rc.value);
     }
 
     void add(int idx, int val, Node node, int s, int t) {
@@ -163,7 +163,7 @@ class SegmentTree {
         if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
         if (idx <= c)   add(idx, val, node.lc, s, c);
         else            add(idx, val, node.rc, c + 1, t);
-        node.value = pushUp.pushUp(node.lc.value, node.rc.value);
+        node.value = pushUp.applyAsInt(node.lc.value, node.rc.value);
     }
 
     void multiply(int idx, int val, Node node, int s, int t) {
@@ -175,7 +175,7 @@ class SegmentTree {
         if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
         if (idx <= c)   multiply(idx, val, node.lc, s, c);
         else            multiply(idx, val, node.rc, c + 1, t);
-        node.value = pushUp.pushUp(node.lc.value, node.rc.value);
+        node.value = pushUp.applyAsInt(node.lc.value, node.rc.value);
     }
 
     int get(int idx, Node node, int s, int t) {
@@ -195,27 +195,9 @@ class SegmentTree {
         if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
         int ret = DEFAULT_VALUE;
         if (l <= c) ret = query(l, r, node.lc, s, c);
-        if (c < r)  ret = pushUp.pushUp(ret, query(l, r, node.rc, c + 1, t));
+        if (c < r)  ret = pushUp.applyAsInt(ret, query(l, r, node.rc, c + 1, t));
         return ret;
     }
-}
-
-
-/**
- * Define the operation when SegmentTree pushing up the value of nodes.
- */
-@FunctionalInterface
-interface PushUp {
-
-    /**
-     * Define the operation when SegmentTree pushing up the value of nodes.
-     * 
-     * @param lcValue the value of left child of the node calling this method
-     * @param rcValue the value of right child of the node calling this method
-     * @return the new value of the node calling this method
-     */
-    int pushUp(int lcValue, int rcValue);
-
 }
 
 /**
