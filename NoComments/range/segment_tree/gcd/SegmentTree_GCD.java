@@ -30,6 +30,7 @@ class SegmentTree_GCD {
     public void multiply(int idx, int val) {
         multiply(idx, val, root, LOWERBOUND, UPPERBOUND);
     }
+
     
     public int get(int idx) {
         return arr[idx];
@@ -79,15 +80,6 @@ class SegmentTree_GCD {
         if (idx <= c)   multiply(idx, val, node.lc, s, c);
         else            multiply(idx, val, node.rc, c + 1, t);
         node.gcd = getGcd(node.lc.gcd, node.rc.gcd);
-    }
-
-    int get(int idx, Node node, int s, int t) {
-        if (s == t) {
-            return node.gcd;
-        }
-        int c = (s & t) + ((s ^ t) >> 1);
-        if (idx <= c)   return get(idx, node.lc, s, c);
-        else            return get(idx, node.rc, c + 1, t);
     }
 
     int gcd(int l, int r, Node node, int s, int t) {

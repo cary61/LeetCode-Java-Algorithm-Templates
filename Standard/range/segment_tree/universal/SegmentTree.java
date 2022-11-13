@@ -69,7 +69,7 @@ class SegmentTree {
      * @param idx the index of single point
      * @param operation the operation
      */
-    public void update(int idx, Operation operation) {
+    public void update(int idx, java.util.function.IntUnaryOperator operation) {
         update(idx, operation, root, LOWERBOUND, UPPERBOUND);
     }
 
@@ -130,9 +130,9 @@ class SegmentTree {
 
 
 
-    void update(int idx, Operation operation, Node node, int s, int t) {
+    void update(int idx, java.util.function.IntUnaryOperator operation, Node node, int s, int t) {
         if (s == t) {
-            node.value = operation.operate(node.value);
+            node.value = operation.applyAsInt(node.value);
             return;
         }
         int c = (s & t) + ((s ^ t) >> 1);
@@ -198,20 +198,4 @@ class SegmentTree {
         if (c < r)  ret = pushUp.applyAsInt(ret, query(l, r, node.rc, c + 1, t));
         return ret;
     }
-}
-
-/**
- * Define the operation to single point.
- */
-@FunctionalInterface
-interface Operation {
-
-    /**
-     * Set the single point a new value.
-     * 
-     * @param nodeValue the old value of the single point
-     * @return the new value of the single point
-     */
-    int operate(int nodeValue);
-
 }

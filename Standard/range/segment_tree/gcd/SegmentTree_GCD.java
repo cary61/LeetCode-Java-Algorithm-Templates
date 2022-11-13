@@ -108,7 +108,11 @@ class SegmentTree_GCD {
         return gcd(l, r, root, LOWERBOUND, UPPERBOUND);
     }
 
+
+
     // Internal Implementations
+
+
 
     void set(int idx, int val, Node node, int s, int t) {
         if (s == t) {
