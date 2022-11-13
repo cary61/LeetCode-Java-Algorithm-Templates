@@ -1,4 +1,6 @@
-<img src="res/pic/leetcode_logo.png" width=150px/>
+<div align="center">
+    <img src="res/pic/leetcode_logo.png" width=150px/>
+<div/>
 
 ---
 

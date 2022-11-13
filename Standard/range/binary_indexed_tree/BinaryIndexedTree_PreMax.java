@@ -1,10 +1,10 @@
 /**
- * A BinaryIndexTree, maintains the sum of range.
- * Capable of setting new value, adding value to single points, and get the sum of any query range.
+ * A BinaryIndexTree, maintains the max of range.
+ * Capable of adding value to single points, and get the max of the query range starting from 1.
  * 
  * @author cary61
  */
-class BinaryIndexedTree_Sum {
+class BinaryIndexedTree_PreMax {
 
     /**
      * The length of original array.
@@ -17,25 +17,15 @@ class BinaryIndexedTree_Sum {
     int[] arr;
 
     /**
-     * The array that maintains prefix sum;
+     * The array that maintains prefix max;
      */
     int[] tree;
 
-    public BinaryIndexedTree_Sum(int[] arr) {
+    public BinaryIndexedTree_PreMax(int[] arr) {
         this.length = arr.length;
         this.arr = arr;
         this.tree = new int[length + 1];
         init();
-    }
-
-    /**
-     * Set a single point a new value.
-     * 
-     * @param idx the index of single point
-     * @param val the new value
-     */
-    public void set(int idx, int val) {
-        add(idx, val - arr[idx]);
     }
 
     /**
@@ -47,31 +37,20 @@ class BinaryIndexedTree_Sum {
     public void add(int idx, int val) {
         arr[idx] += val;
         for (int i = idx + 1; i <= length; i += i & -i) {
-            tree[i] += val;
+            tree[i] = Math.max(tree[i], arr[idx]);
         }
     }
 
     /**
-     * Get the sum of range[l, r].
-     * 
-     * @param l the lower bound of range
-     * @param r the upper bound of range
-     * @return the sum of range
-     */
-    public int sum(int l, int r) {
-        return presum(r) - presum(l - 1);
-    }
-
-    /**
-     * Get the prefix sum of range[0,index].
+     * Get the prefix max of range[0,index].
      * 
      * @param idx the end point of range
-     * @return the prefix sum
+     * @return the prefix max
      */
-    public int presum(int idx) {
+    public int premax(int idx) {
         int ret = 0;
         for (int i = idx + 1; i > 0; i -= i & -i) {
-            ret += tree[i];
+            ret = Math.max(ret, tree[i]);
         }
         return ret;
     }
@@ -87,10 +66,10 @@ class BinaryIndexedTree_Sum {
      */
     void init() {
         for (int i = 1; i <= length; ++i) {
-            tree[i] += arr[i - 1];
+            tree[i] = Math.max(tree[i], arr[i - 1]);
             int j = i + (i & -i);
             if (j <= length) {
-                tree[j] += tree[i];
+                tree[j] = Math.max(tree[j], tree[i]);
             }
         }
     }
