@@ -6,7 +6,7 @@
  *
  * @author cary61
  */
-class SegmentTree_Min {
+class SegmentTree_Min_Add {
 
     /**
      * The default value of the unspecified value
@@ -53,7 +53,7 @@ class SegmentTree_Min {
      * Instantiate a SegmentTree that maintains the range [MIN_INT, MAX_INT].
      * The value of the points that have not been specified is DEFAULT_VALUE.
      */
-    public SegmentTree_Min() {
+    public SegmentTree_Min_Add() {
         this.LOWERBOUND = Integer.MIN_VALUE;
         this.UPPERBOUND = Integer.MAX_VALUE;
         this.root = new Node();
@@ -66,7 +66,7 @@ class SegmentTree_Min {
      * @param LOWERBOUND the lower-bound of range
      * @param UPPERBOUND the upper-bound of range
      */
-    public SegmentTree_Min(int LOWERBOUND, int UPPERBOUND) {
+    public SegmentTree_Min_Add(int LOWERBOUND, int UPPERBOUND) {
         this.LOWERBOUND = LOWERBOUND;
         this.UPPERBOUND = UPPERBOUND;
         this.root = new Node();
@@ -77,7 +77,7 @@ class SegmentTree_Min {
      *
      * @param arr The array that SegmentTree maintains
      */
-    public SegmentTree_Min(int[] arr) {
+    public SegmentTree_Min_Add(int[] arr) {
         this.LOWERBOUND = 0;
         this.UPPERBOUND = arr.length - 1;
         this.root = new Node();

@@ -1,157 +1,61 @@
-/**
- * A SegmentTree, maintains the min value of range.
- * Capital of updating new value, adding value, multiplying value to single points, and cover range of new value, getting the min value of any query range.
- * Implemented by Node.
- * The public methods are advised to use.
- *
- * @author cary61
- */
-class SegmentTree_Min_Cover {
-
-    /**
-     * The default value of the unspecified value
-     */
+class SegmentTree_Min_Add {
+    
     static final int DEFAULT_VALUE = Integer.MAX_VALUE;
-
-    /**
-     * The node of tree structure.
-     */
+    
     class Node {
-
-        /**
-         * The min value of the range that this node represents.
-         */
         int min = DEFAULT_VALUE;
-
-        /**
-         * The left child and right child of this node.
-         */
         Node lc, rc;
-
-        /**
-         * The value that should cover this node.
-         */
-        int lazyCover;
-
-        /**
-         * When false, represents the lazyCover should be push down.
-         */
-        boolean updated = true;
+        int lazyAdd;
     }
-
-    /**
-     * The lower-bound of range.
-     */
+    
     int LOWERBOUND;
-
-    /**
-     * The upper-bound of range.
-     */
     int UPPERBOUND;
-
-    /**
-     * The root of tree structure.
-     */
     Node root;
-
-    /**
-     * Instantiate a SegmentTree that maintains the range [MIN_INT, MAX_INT].
-     * The value of the points that have not been specified is DEFAULT_VALUE.
-     */
-    public SegmentTree_Min_Cover() {
+    
+    public SegmentTree_Min_Add() {
         this.LOWERBOUND = Integer.MIN_VALUE;
         this.UPPERBOUND = Integer.MAX_VALUE;
         this.root = new Node();
     }
-
-    /**
-     * Instantiate a SegmentTree that maintains a range, with the lower-bound and upper-bound of it.
-     * The value of the points that have not been specified is DEFAULT_VALUE.
-     *
-     * @param LOWERBOUND the lower-bound of range
-     * @param UPPERBOUND the upper-bound of range
-     */
-    public SegmentTree_Min_Cover(int LOWERBOUND, int UPPERBOUND) {
+    
+    public SegmentTree_Min_Add(int LOWERBOUND, int UPPERBOUND) {
         this.LOWERBOUND = LOWERBOUND;
         this.UPPERBOUND = UPPERBOUND;
         this.root = new Node();
     }
-
-    /**
-     * Instantiate a SegmentTree that maintains an array.
-     *
-     * @param arr The array that SegmentTree maintains
-     */
-    public SegmentTree_Min_Cover(int[] arr) {
+    
+    public SegmentTree_Min_Add(int[] arr) {
         this.LOWERBOUND = 0;
         this.UPPERBOUND = arr.length - 1;
         this.root = new Node();
         build(arr, root, LOWERBOUND, UPPERBOUND);
     }
-
-    /**
-     * Set a single point with a new value.
-     *
-     * @param idx the index of the single point to set
-     * @param val the new value of the single point
-     */
+    
     public void set(int idx, int val) {
         set(idx, val, root, LOWERBOUND, UPPERBOUND);
     }
-
-    /**
-     * Add a value to a single point.
-     *
-     * @param idx the index of the single point
-     * @param val the value that added to the single point
-     */
+    
     public void add(int idx, int val) {
         add(idx, val, root, LOWERBOUND, UPPERBOUND);
     }
-
-    /**
-     * Make a single point multiply a value.
-     * 
-     * @param idx the index of the single point
-     * @param val the value that be multiplied
-     */
+    
     public void multiply(int idx, int val) {
         multiply(idx, val, root, LOWERBOUND, UPPERBOUND);
     }
-
-    /**
-     * Cover every single point of range with new value.
-     * 
-     * @param l  the lower-bound of the range
-     * @param r the upper-bound of the range
-     * @param val the new value
-     */
-    public void cover(int l, int r, int val) {
-        cover(l, r, val, root, LOWERBOUND, UPPERBOUND);
+    
+    public void add(int l, int r, int val) {
+        add(l, r, val, root, LOWERBOUND, UPPERBOUND);
     }
-
-    /**
-     * Get the value of a single point.
-     *
-     * @param idx the index of the single point
-     * @return the value of the single point
-     */
+    
     public int get(int idx) {
         return get(idx, root, LOWERBOUND, UPPERBOUND);
     }
-
-    /**
-     * Get the min value of range [l, r].
-     *
-     * @param l the lower-bound of query range
-     * @param r the upper-bound of query range
-     * @return the sum of query range [l, r]
-     */
+    
     public int min(int l, int r) {
         return min(l, r, root, LOWERBOUND, UPPERBOUND);
     }
 
-    
+
 
     // Internal Implementations
 
@@ -196,20 +100,19 @@ class SegmentTree_Min_Cover {
         node.min = Math.min(node.lc.min, node.rc.min);
     }
 
-    void cover(int l, int r, int val, Node node, int s, int t) {
+    void add(int l, int r, int val, Node node, int s, int t) {
         if (l <= s && t <= r) {
-            node.min = val;
+            node.min += val;
             if (s != t) {
-                node.lazyCover = val;
-                node.updated = false;
+                node.lazyAdd += val;
             }
             return;
         }
         int c = (s & t) + ((s ^ t) >> 1);
         if (node.lc == null) {node.lc = new Node(); node.rc = new Node();}
         this.pushDown(node, s, t, c);
-        if (l <= c)     cover(l, r, val, node.lc, s, c);
-        if (c < r)      cover(l, r, val, node.rc, c + 1, t);
+        if (l <= c)     add(l, r, val, node.lc, s, c);
+        if (c < r)      add(l, r, val, node.rc, c + 1, t);
         node.min = Math.min(node.lc.min, node.rc.min);
     }
 
@@ -251,18 +154,15 @@ class SegmentTree_Min_Cover {
     }
 
     void pushDown(Node node, int s, int t, int c) {
-        if (!node.updated) {
-            node.lc.min = node.lazyCover;
-            node.lc.lazyCover = node.lazyCover;
-            node.lc.updated = false;
+        if (node.lazyAdd != 0) {
+            node.lc.min += node.lazyAdd;
+            node.lc.lazyAdd += node.lazyAdd;
 
-            node.rc.min = node.lazyCover;
-            node.rc.lazyCover = node.lazyCover;
-            node.rc.updated = false;
+            node.rc.min += node.lazyAdd;
+            node.rc.lazyAdd += node.lazyAdd;
 
-            node.updated = true;
+            node.lazyAdd = 0;
         }
     }
 }
-
 

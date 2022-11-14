@@ -1,157 +1,62 @@
-/**
- * A SegmentTree, maintains the min value of range.
- * Capital of updating new value, adding value, multiplying value to single points, and cover range of new value, getting the min value of any query range.
- * Implemented by Node.
- * The public methods are advised to use.
- *
- * @author cary61
- */
 class SegmentTree_Min_Cover {
-
-    /**
-     * The default value of the unspecified value
-     */
+    
     static final int DEFAULT_VALUE = Integer.MAX_VALUE;
-
-    /**
-     * The node of tree structure.
-     */
+    
     class Node {
-
-        /**
-         * The min value of the range that this node represents.
-         */
         int min = DEFAULT_VALUE;
-
-        /**
-         * The left child and right child of this node.
-         */
         Node lc, rc;
-
-        /**
-         * The value that should cover this node.
-         */
         int lazyCover;
-
-        /**
-         * When false, represents the lazyCover should be push down.
-         */
         boolean updated = true;
     }
-
-    /**
-     * The lower-bound of range.
-     */
+    
     int LOWERBOUND;
-
-    /**
-     * The upper-bound of range.
-     */
     int UPPERBOUND;
-
-    /**
-     * The root of tree structure.
-     */
     Node root;
-
-    /**
-     * Instantiate a SegmentTree that maintains the range [MIN_INT, MAX_INT].
-     * The value of the points that have not been specified is DEFAULT_VALUE.
-     */
+    
     public SegmentTree_Min_Cover() {
         this.LOWERBOUND = Integer.MIN_VALUE;
         this.UPPERBOUND = Integer.MAX_VALUE;
         this.root = new Node();
     }
-
-    /**
-     * Instantiate a SegmentTree that maintains a range, with the lower-bound and upper-bound of it.
-     * The value of the points that have not been specified is DEFAULT_VALUE.
-     *
-     * @param LOWERBOUND the lower-bound of range
-     * @param UPPERBOUND the upper-bound of range
-     */
+    
     public SegmentTree_Min_Cover(int LOWERBOUND, int UPPERBOUND) {
         this.LOWERBOUND = LOWERBOUND;
         this.UPPERBOUND = UPPERBOUND;
         this.root = new Node();
     }
-
-    /**
-     * Instantiate a SegmentTree that maintains an array.
-     *
-     * @param arr The array that SegmentTree maintains
-     */
+    
     public SegmentTree_Min_Cover(int[] arr) {
         this.LOWERBOUND = 0;
         this.UPPERBOUND = arr.length - 1;
         this.root = new Node();
         build(arr, root, LOWERBOUND, UPPERBOUND);
     }
-
-    /**
-     * Set a single point with a new value.
-     *
-     * @param idx the index of the single point to set
-     * @param val the new value of the single point
-     */
+    
     public void set(int idx, int val) {
         set(idx, val, root, LOWERBOUND, UPPERBOUND);
     }
-
-    /**
-     * Add a value to a single point.
-     *
-     * @param idx the index of the single point
-     * @param val the value that added to the single point
-     */
+    
     public void add(int idx, int val) {
         add(idx, val, root, LOWERBOUND, UPPERBOUND);
     }
-
-    /**
-     * Make a single point multiply a value.
-     * 
-     * @param idx the index of the single point
-     * @param val the value that be multiplied
-     */
+    
     public void multiply(int idx, int val) {
         multiply(idx, val, root, LOWERBOUND, UPPERBOUND);
     }
-
-    /**
-     * Cover every single point of range with new value.
-     * 
-     * @param l  the lower-bound of the range
-     * @param r the upper-bound of the range
-     * @param val the new value
-     */
+    
     public void cover(int l, int r, int val) {
         cover(l, r, val, root, LOWERBOUND, UPPERBOUND);
     }
-
-    /**
-     * Get the value of a single point.
-     *
-     * @param idx the index of the single point
-     * @return the value of the single point
-     */
+    
     public int get(int idx) {
         return get(idx, root, LOWERBOUND, UPPERBOUND);
     }
-
-    /**
-     * Get the min value of range [l, r].
-     *
-     * @param l the lower-bound of query range
-     * @param r the upper-bound of query range
-     * @return the sum of query range [l, r]
-     */
+    
     public int min(int l, int r) {
         return min(l, r, root, LOWERBOUND, UPPERBOUND);
     }
 
-    
+
 
     // Internal Implementations
 
@@ -264,5 +169,4 @@ class SegmentTree_Min_Cover {
         }
     }
 }
-
 
