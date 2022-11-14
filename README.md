@@ -24,6 +24,9 @@ The algorithm templates I've already written:
 
 |         Algorithm         |                            Status                            | Directory                  |
 | :-----------------------: | :----------------------------------------------------------: | -------------------------- |
+|            BFS            | Versions of with_edges, with_adjacent_array, in_grid, in_binary_tree. | \graph\search              |
+|            DFS            | Versions of with_edges, with_adjacent_array, in_grid, in_binary_tree. | \graph\search              |
+|      Tree Traversal       |  Versions of level-order, pre-order, in-order, post-order.   | \graph\search              |
 |        Union Find         | 1. Standard version. 2. Supporting big amount vertexes, implemented by HashMap version. 3. Supporting any type of variables as vertexes, the generics version. | \graph\union_find          |
 |    Adjacent Difference    |                      Standard version.                       | \range\adjacent_difference |
 |    Binary Indexed Tree    |                       Version of sum.                        | \range\binary_indexed_tree |
