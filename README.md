@@ -24,9 +24,9 @@ The algorithm templates I've already written:
 
 |         Algorithm         |                            Status                            | Directory                  |
 | :-----------------------: | :----------------------------------------------------------: | -------------------------- |
-|            BFS            | Versions of with_edges, with_adjacent_array, in_grid, in_binary_tree. | \graph\search              |
-|            DFS            | Versions of with_edges, with_adjacent_array, in_grid, in_binary_tree. | \graph\search              |
-|      Tree Traversal       |  Versions of level-order, pre-order, in-order, post-order.   | \graph\search              |
+|            BFS            | Versions of with_edges, with_adjacent_array, with_adjacent_list, in_grid. | \graph\search              |
+|            DFS            | Versions of with_edges, with_adjacent_array,with_adjacent_list, in_grid. | \graph\search              |
+|      Tree Traversal       | Versions of BFS, DFS, level-order, pre-order, in-order, post-order. | \graph\tree\binary_tree    |
 |        Union Find         | 1. Standard version. 2. Supporting big amount vertexes, implemented by HashMap version. 3. Supporting any type of variables as vertexes, the generics version. | \graph\union_find          |
 |    Adjacent Difference    |                      Standard version.                       | \range\adjacent_difference |
 |    Binary Indexed Tree    |                       Version of sum.                        | \range\binary_indexed_tree |
@@ -34,6 +34,7 @@ The algorithm templates I've already written:
 |       Segment Tree        | Versions of sum, max, min, xor-sum, product, gcd, lcm, universal. The versions of sum, max, min have special range adding & covering support sub-versions. All implemented by nodes. | \range\segment_tree        |
 | Rabin Karp (Rolling Hash) | 4 Rabin Karp utilities classes, supporting string matching and finding in 3 different ways: calling method by strings themselves, by their hash arrays, by their special instances. The additional one file support all 3 ways. | \string\rabin_karp         |
 |           Trie            | One standard version supports lower case letters, and one version supports any UTF letters implemented by HashMap. | \string\trie               |
+|           Math            | GCD (Greatest Common Divisor), LCM(Least Common Multiple), Factorial, Ceiling_Divide. | \math                      |
 
 
 
