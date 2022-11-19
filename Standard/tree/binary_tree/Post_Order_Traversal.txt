@@ -1,0 +1,9 @@
+void postorder(TreeNode node) {
+    if (node == null) {
+        return;
+    }
+    postorder(node.left);
+    postorder(node.right);
+    // do something
+    
+}

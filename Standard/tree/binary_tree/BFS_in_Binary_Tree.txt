@@ -1,0 +1,13 @@
+Queue<TreeNode> queue = new ArrayDeque<>();
+queue.offer(root);
+
+while (!queue.isEmpty()) {
+    TreeNode node = queue.poll();
+    
+    if (node.left != null) {
+        queue.offer(node.left);
+    }
+    if (node.rigth != null) {
+        queue.offer(node.right);
+    }
+}

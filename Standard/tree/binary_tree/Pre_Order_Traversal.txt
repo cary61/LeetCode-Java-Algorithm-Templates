@@ -1,0 +1,9 @@
+void preorder(TreeNode node) {
+    if (node == null) {
+        return;
+    }
+    // do something
+    
+    preorder(node.left);
+    preorder(node.right);
+}

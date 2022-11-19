@@ -1,0 +1,9 @@
+void inorder(TreeNode node) {
+    if (node == null) {
+        return;
+    }
+    inorder(node.left);
+    // do something
+    
+    inorder(node.right);
+}

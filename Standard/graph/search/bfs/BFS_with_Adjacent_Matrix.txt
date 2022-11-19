@@ -1,0 +1,22 @@
+Queue<Integer> queue = new ArrayDeque<>();
+queue.offer(startPos);
+
+boolean[] vis = new boolean[n];
+vis[startPos] = true;
+
+while(!queue.isEmpty()) {
+	
+	int pos = queue.poll();
+	
+	
+	for (int j = 0; j < graph[pos].length; ++j) {
+		int next = graph[pos][j];
+
+		if (!vis[j]) {
+            
+            queue.offer(next);
+            vis[j] = true;
+        }
+	}
+    
+}

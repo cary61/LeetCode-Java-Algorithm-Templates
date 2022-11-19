@@ -1,0 +1,11 @@
+void dfs(int pos, int[][] graph) {
+        
+    for(int j = 0; j < graph[pos].length; ++j) {
+        int next = graph[pos][j];
+        if (vis[next]) {
+            continue;
+        }
+
+        dfs(next, graph);
+    }
+}

@@ -1,0 +1,17 @@
+
+int[][] dirs = new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+// int[][] dirs = new int[][]{{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
+
+void dfs(int row, int col, boolean[][] vis) {
+    
+    for (int[] dir : dirs) {
+        int x = row + dir[0];
+        int y = col + dir[1];
+        if (0 <= x && x < m && 0 <= y && y < n && !vis[x][y]) {
+            vis[x][y] = true;
+            dfs(x, y, vis);
+            vis[x][y] = false;
+        }
+    }
+    
+}

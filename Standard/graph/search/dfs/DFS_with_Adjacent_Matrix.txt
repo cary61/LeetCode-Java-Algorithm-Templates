@@ -1,0 +1,9 @@
+void dfs(int pos, int[][] graph) {
+        
+    for(int j = 0; j < n; ++j) {
+        if (graph[pos][j] && !vis[j]) {
+            dfs(j, graph);
+        }
+
+    }
+}
